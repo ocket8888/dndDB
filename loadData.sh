@@ -22,7 +22,7 @@ fi
 
 
 echo "Ensuring clean initial state..."
-psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS diety; DROP TYPE IF EXISTS domain;' >/dev/null
+psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS dietyDomains; DROP TABLE IF EXISTS diety; DROP TYPE IF EXISTS domain;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS objectImmunity;DROP TABLE IF EXISTS objectActions;DROP TABLE IF EXISTS object;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS racialBonus; DROP TABLE IF EXISTS subracialBonus; DROP TABLE IF EXISTS subrace; DROP TABLE IF EXISTS race;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS book;' >/dev/null
