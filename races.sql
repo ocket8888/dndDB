@@ -153,7 +153,7 @@ INSERT INTO subrace VALUES
 ('Stensia', 'Human (Innistrad)', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('Ibis-Headed', 'Aven', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('Hawk-Headed', 'Aven', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('Githyanki', 'Gith', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Githyanki tend toward lawful evil.  They are self-centered, violent, and arrogant, yet they remain the faithful servants of their lich-queen, Vlaakith. Renegade githyanki tend toward chaos as they have forsaken her will.', NULL),
+('Githyanki', 'Gith', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Githyanki tend toward lawful evil. They are self-centered, violent, and arrogant, yet they remain the faithful servants of their lich-queen, Vlaakith. Renegade githyanki tend toward chaos as they have forsaken her will.', NULL),
 ('Githzerai', 'Gith', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Githzerai tend toward lawful neutral. Their rigorous training in psychic abilities requires an implacable mental discipline.', NULL),
 ('Green', 'Merfolk (Ixalan)', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('Blue', 'Merfolk (Ixalan)', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -330,10 +330,11 @@ INSERT INTO racialBonus VALUES
 ('Wis', -4, 'Zombie'),
 ('Cha', -4, 'Zombie');
 
-CREATE TABLE racialBonusChoices (stats char(3) ARRAY[],
+CREATE TABLE racialBonusChoices (stat char(3) REFERENCES ability (abbreviation),
                                  amount smallint,
                                  count smallint,
-                                 race text PRIMARY KEY REFERENCES race (name));
+                                 race text REFERENCES race (name),
+                                 PRIMARY KEY (stat, race));
 
 CREATE TABLE subracialBonus (stat char(3) REFERENCES ability (abbreviation),
                              amount smallint,

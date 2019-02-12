@@ -22,9 +22,11 @@ fi
 
 
 echo "Ensuring clean initial state..."
+psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS suggestedFlaws; DROP TABLE IF EXISTS suggestedTraits; DROP TABLE IF EXISTS suggestedBonds; DROP TABLE IF EXISTS suggestedIdeals; DROP TABLE IF EXISTS backgroundFeature; DROP TABLE IF EXISTS backgroundProficiencies; DROP TABLE IF EXISTS background;'
+psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS feature;'
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS dietyDomains; DROP TABLE IF EXISTS diety; DROP TYPE IF EXISTS domain;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS objectImmunity;DROP TABLE IF EXISTS objectActions;DROP TABLE IF EXISTS object;' >/dev/null
-psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS racialBonus; DROP TABLE IF EXISTS subracialBonus; DROP TABLE IF EXISTS subrace; DROP TABLE IF EXISTS race;' >/dev/null
+psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS racialBonus; DROP TABLE IF EXISTS subracialBonus; DROP TABLE IF EXISTS racialBonusChoices; DROP TABLE IF EXISTS subrace; DROP TABLE IF EXISTS race;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS book;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS adventure; DROP TABLE IF EXISTS storyline;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TYPE IF EXISTS alignment; DROP TYPE IF EXISTS structure; DROP TYPE IF EXISTS nature;' >/dev/null
@@ -57,4 +59,12 @@ echo "Done."
 
 echo "Loading objects..."
 psql -d $DATABASE_NAME -f "$HERE/objects.sql"
+echo "Done."
+
+echo "Loading features..."
+psql -d $DATABASE_NAME -f "$HERE/features.sql"
+echo "Done."
+
+echo "Loading backgrounds..."
+psql -d $DATABASE_NAME -f "$HERE/backgrounds.sql"
 echo "Done."
