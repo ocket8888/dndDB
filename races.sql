@@ -330,6 +330,10 @@ INSERT INTO racialBonus VALUES
 ('Wis', -4, 'Zombie'),
 ('Cha', -4, 'Zombie');
 
+CREATE TABLE racialBonusChoices (stats char(3) ARRAY[],
+                                 amount smallint,
+                                 count smallint,
+                                 race text PRIMARY KEY REFERENCES race (name));
 
 CREATE TABLE subracialBonus (stat char(3) REFERENCES ability (abbreviation),
                              amount smallint,
