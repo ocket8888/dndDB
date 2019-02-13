@@ -50,18 +50,20 @@ Datum gp_input(PG_FUNCTION_ARGS) {
 			ereport(ERROR, (errcode(ERRCODE_INVALID_TEXT_REPRESENTATION), errmsg(invalidFormat, raw)));
 	}
 
-	int32* result = (int32*)palloc(sizeof(int32));
-	*result = amt;
-	ereport(WARNING, (errcode(ERRCODE_UNTRANSLATABLE_CHARACTER), errmsg("Result: %dcp (%p)", *result, result)));
+	// int32* result = (int32*)palloc(sizeof(int32));
+	// *result = amt;
+	// ereport(WARNING, (errcode(ERRCODE_UNTRANSLATABLE_CHARACTER), errmsg("Result: %dcp (%p)", *result, result)));
 
-	PG_RETURN_POINTER(result);
+	// PG_RETURN_POINTER(result);
+	PG_RETURN_INT32(amt);
 }
 
 PG_FUNCTION_INFO_V1(gp_output);
 
 Datum gp_output(PG_FUNCTION_ARGS) {
-	int32* raw = (int32*)PG_GETARG_POINTER(0);
-	int32 val = *raw;
+	// int32* raw = (int32*)PG_GETARG_POINTER(0);
+	// int32 val = *raw;
+	int32 val = PG_GETARG_INT32(0);
 	unsigned int bufsz = sizeof(unsigned char)*9 + 2;
 	char* buf = (char*) palloc(bufsz+1); // +1 b/c '\0'
 
@@ -91,7 +93,6 @@ Datum gp_output(PG_FUNCTION_ARGS) {
 		}
 	}
 	else {
-	ereport(WARNING, (errcode(ERRCODE_UNTRANSLATABLE_CHARACTER), errmsg("val=%dcp (%p)", *raw, raw)));
 		if (sprintf(buf, "%dcp", val) <= 0) {
 			ereport(ERROR, (errcode(ERRCODE_UNTRANSLATABLE_CHARACTER), errmsg("Bad value for gp")));
 		}
