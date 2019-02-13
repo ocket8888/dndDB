@@ -22,8 +22,9 @@ fi
 
 
 echo "Ensuring clean initial state..."
-psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS suggestedFlaws; DROP TABLE IF EXISTS suggestedTraits; DROP TABLE IF EXISTS suggestedBonds; DROP TABLE IF EXISTS suggestedIdeals; DROP TABLE IF EXISTS backgroundFeature; DROP TABLE IF EXISTS backgroundProficiencies; DROP TABLE IF EXISTS background;'
-psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS feature;'
+psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS suggestedFlaws; DROP TABLE IF EXISTS suggestedTraits; DROP TABLE IF EXISTS suggestedBonds; DROP TABLE IF EXISTS suggestedIdeals; DROP TABLE IF EXISTS backgroundFeature; DROP TABLE IF EXISTS backgroundProficiencies; DROP TABLE IF EXISTS background;' >/dev/null
+psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS item; DROP TYPE IF EXISTS weaponRange; DROP TYPE IF EXISTS weaponType; DROP TYPE IF EXISTS damageType; DROP TYPE IF EXISTS itemType; DROP TYPE IF EXISTS rarity; DROP TYPE IF EXISTS gp;' >/dev/null
+psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS feature;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS dietyDomains; DROP TABLE IF EXISTS diety; DROP TYPE IF EXISTS domain;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS objectImmunity;DROP TABLE IF EXISTS objectActions;DROP TABLE IF EXISTS object;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS racialBonus; DROP TABLE IF EXISTS subracialBonus; DROP TABLE IF EXISTS racialBonusChoices; DROP TABLE IF EXISTS subrace; DROP TABLE IF EXISTS race;' >/dev/null
@@ -63,6 +64,10 @@ echo "Done."
 
 echo "Loading features..."
 psql -d $DATABASE_NAME -f "$HERE/features.sql"
+echo "Done."
+
+echo "Loading items..."
+psql -d $DATABASE_NAME -f "$HERE/items.sql"
 echo "Done."
 
 echo "Loading backgrounds..."
