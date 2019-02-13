@@ -20,10 +20,9 @@ if ! psql -d "$1" -c '\q'; then
 	exit 1
 fi
 
-
 echo "Ensuring clean initial state..."
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS suggestedFlaws; DROP TABLE IF EXISTS suggestedTraits; DROP TABLE IF EXISTS suggestedBonds; DROP TABLE IF EXISTS suggestedIdeals; DROP TABLE IF EXISTS backgroundFeature; DROP TABLE IF EXISTS backgroundProficiencies; DROP TABLE IF EXISTS background;' >/dev/null
-psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS item; DROP TYPE IF EXISTS weaponRange; DROP TYPE IF EXISTS weaponType; DROP TYPE IF EXISTS damageType; DROP TYPE IF EXISTS itemType; DROP TYPE IF EXISTS rarity; DROP TYPE IF EXISTS gp;' >/dev/null
+psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS item; DROP TYPE IF EXISTS weaponRange; DROP TYPE IF EXISTS weaponType; DROP TYPE IF EXISTS damageType; DROP TYPE IF EXISTS itemType; DROP TYPE IF EXISTS rarity; DROP TYPE IF EXISTS gp CASCADE;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS feature;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS dietyDomains; DROP TABLE IF EXISTS diety; DROP TYPE IF EXISTS domain;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS objectImmunity;DROP TABLE IF EXISTS objectActions;DROP TABLE IF EXISTS object;' >/dev/null
@@ -32,6 +31,12 @@ psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS book;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS adventure; DROP TABLE IF EXISTS storyline;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TYPE IF EXISTS alignment; DROP TYPE IF EXISTS structure; DROP TYPE IF EXISTS nature;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS skill; DROP TABLE IF EXISTS ability;' >/dev/null
+echo "Done."
+
+echo "Building, installing and loading GP type"
+make
+sudo make install
+psql -d $DATABASE_NAME -f "$HERE/gp.sql"
 echo "Done."
 
 echo "Loading books..."
