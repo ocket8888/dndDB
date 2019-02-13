@@ -52,6 +52,7 @@ Datum gp_input(PG_FUNCTION_ARGS) {
 
 	int32* result = (int32*)palloc(sizeof(int32));
 	*result = amt;
+	ereport(WARNING, (errcode(ERRCODE_UNTRANSLATABLE_CHARACTER), errmsg("Result: %dcp (%p)", *result, result)));
 
 	PG_RETURN_POINTER(result);
 }
@@ -64,52 +65,33 @@ Datum gp_output(PG_FUNCTION_ARGS) {
 	unsigned int bufsz = sizeof(unsigned char)*9 + 2;
 	char* buf = (char*) palloc(bufsz+1); // +1 b/c '\0'
 
-	if (val >= 10) {
-		int32 deci = val % 10;
+	if (val >= 10 && val % 10 == 0) {
 		val /= 10;
 
-		if (val >= 10) {
-			deci += 10*(val % 10);
+		if (val >= 10 && val % 10 == 0) {
 			val /= 10;
 
-			if (val >= 10) {
-				deci += 100*(val % 10);
+			if (val >= 10 && val % 10 == 0) {
 				val /= 10;
 
-				if (deci == 0) {
-					if (sprintf(buf, "%dpp", val) <= 0) {
-						ereport(ERROR, (errcode(ERRCODE_UNTRANSLATABLE_CHARACTER), errmsg("Bad value for gp")));
-					}
-				}
-				else {
-					if (sprintf(buf, "%d.%.3dpp", val, deci) <= 0) {
-						ereport(ERROR, (errcode(ERRCODE_UNTRANSLATABLE_CHARACTER), errmsg("Bad value for gp")));
-					}
-				}
-			}
-			else if (deci == 0){
-				if (sprintf(buf, "%dgp", val) <= 0) {
+				if (sprintf(buf, "%dpp", val) <= 0) {
 					ereport(ERROR, (errcode(ERRCODE_UNTRANSLATABLE_CHARACTER), errmsg("Bad value for gp")));
 				}
 			}
 			else {
-				if (sprintf(buf, "%d.%.2dgp", val, deci) <= 0) {
+				if (sprintf(buf, "%dgp", val) <= 0) {
 					ereport(ERROR, (errcode(ERRCODE_UNTRANSLATABLE_CHARACTER), errmsg("Bad value for gp")));
 				}
 			}
 		}
-		else if (deci == 0) {
-			if (sprintf(buf, "%dsp", val) <= 0) {
-				ereport(ERROR, (errcode(ERRCODE_UNTRANSLATABLE_CHARACTER), errmsg("Bad value for gp")));
-			}
-		}
 		else {
-			if (sprintf(buf, "%d.%dsp", val, deci) <= 0) {
+			if (sprintf(buf, "%dsp", val) <= 0) {
 				ereport(ERROR, (errcode(ERRCODE_UNTRANSLATABLE_CHARACTER), errmsg("Bad value for gp")));
 			}
 		}
 	}
 	else {
+	ereport(WARNING, (errcode(ERRCODE_UNTRANSLATABLE_CHARACTER), errmsg("val=%dcp (%p)", *raw, raw)));
 		if (sprintf(buf, "%dcp", val) <= 0) {
 			ereport(ERROR, (errcode(ERRCODE_UNTRANSLATABLE_CHARACTER), errmsg("Bad value for gp")));
 		}
