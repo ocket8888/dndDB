@@ -13,6 +13,7 @@ INSERT INTO book VALUES
 ('Plane Shift: Kaladesh', 'PSK'),
 ('Plane Shift: Zendikar', 'PSZ'),
 ('Sword Coast Adventurer''s Guide', 'SCAG'),
+('Tomb of Annihilation', 'ToA'),
 ('The Tortle Package', 'TTP'),
 ('Unearthed Arcana: Eberron', 'UAEberron'),
 ('Unearthed Arcana: Eladrin and Gith', 'UAEladrinAndGith'),

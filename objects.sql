@@ -43,3 +43,9 @@ CREATE TABLE objectActions (name text,
                             range lseg,
                             object text REFERENCES object (name),
                             PRIMARY KEY (name, object));
+
+CREATE TABLE vehicle (name text PRIMARY KEY,
+                      crew smallint,
+                      passengers smallint,
+                      cargo smallint,
+                      damageThreshold smallint);

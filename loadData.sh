@@ -21,11 +21,12 @@ if ! psql -d "$1" -c '\q'; then
 fi
 
 echo "Ensuring clean initial state..."
+psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS vehicle' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS suggestedFlaws; DROP TABLE IF EXISTS suggestedTraits; DROP TABLE IF EXISTS suggestedBonds; DROP TABLE IF EXISTS suggestedIdeals; DROP TABLE IF EXISTS backgroundFeature; DROP TABLE IF EXISTS backgroundProficiencies; DROP TABLE IF EXISTS background;' >/dev/null
-psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS item; DROP TYPE IF EXISTS weaponRange; DROP TYPE IF EXISTS weaponType; DROP TYPE IF EXISTS damageType; DROP TYPE IF EXISTS itemType; DROP TYPE IF EXISTS rarity; DROP TYPE IF EXISTS gp CASCADE;' >/dev/null
+psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS stealth; DROP TABLE IF EXISTS itemRequirements; DROP TABLE IF EXISTS firearms; DROP TABLE IF EXISTS itemAge; DROP TYPE IF EXISTS age; DROP TABLE IF EXISTS swords; DROP TABLE IF EXISTS axes; DROP TABLE IF EXISTS itemProperty; DROP TABLE IF EXISTS property; DROP TABLE IF EXISTS itemAction; DROP TABLE IF EXISTS item; DROP TYPE IF EXISTS weaponRange; DROP TYPE IF EXISTS weaponType; DROP TYPE IF EXISTS damageType; DROP TYPE IF EXISTS itemType; DROP TYPE IF EXISTS rarity; DROP TYPE IF EXISTS gp CASCADE;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS feature;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS dietyDomains; DROP TABLE IF EXISTS diety; DROP TYPE IF EXISTS domain;' >/dev/null
-psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS objectImmunity;DROP TABLE IF EXISTS objectActions;DROP TABLE IF EXISTS object;' >/dev/null
+psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS objectImmunity;DROP TABLE IF EXISTS objectActions; DROP TABLE IF EXISTS object; DROP TABLE IF EXISTS vehicle;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS racialBonus; DROP TABLE IF EXISTS subracialBonus; DROP TABLE IF EXISTS racialBonusChoices; DROP TABLE IF EXISTS subrace; DROP TABLE IF EXISTS race;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS book;' >/dev/null
 psql -d $DATABASE_NAME -c 'DROP TABLE IF EXISTS adventure; DROP TABLE IF EXISTS storyline;' >/dev/null
